@@ -18,4 +18,4 @@ dist/
 *.log
 
 # Ignore submodule (wrongly added repo)
-remix-weather-final/remix-weather-final
+#remix-weather-final/remix-weather-final
