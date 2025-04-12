@@ -1,50 +1,39 @@
-name: Build and Push Docker Image to ACR
+name: Build & Push Remix Docker Image
 
 on:
   pull_request:
-    branches:
-      - main
-    paths:
-      - remix-weather-final/**  # Only run when app code changes
+    branches: [main]
+  push:
+    branches: [main]
 
 jobs:
-  build-and-push:
+  docker-build-push:
     runs-on: ubuntu-latest
-
-    permissions:
-      id-token: write
-      contents: read
-
-    env:
-      TEST_ACR: testacr7wdj.azurecr.io
-      PROD_ACR: prodacrji4x.azurecr.io
-      IMAGE_NAME: remix-weather
-      APP_DIR: remix-weather-final
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Log in to test ACR
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ env.TEST_ACR }}
-          username: ${{ secrets.TEST_ACR_USERNAME }}
-          password: ${{ secrets.TEST_ACR_PASSWORD }}
+      - name: Log in to Test ACR
+        if: github.event_name == 'pull_request'
+        run: echo "${{ secrets.TEST_ACR_PASSWORD }}" | docker login testacr7wdj.azurecr.io -u ${{ secrets.TEST_ACR_USERNAME }} --password-stdin
 
-      - name: Build and push image to test ACR
+      - name: Log in to Prod ACR
+        if: github.event_name == 'push'
+        run: echo "${{ secrets.PROD_ACR_PASSWORD }}" | docker login prodacrji4x.azurecr.io -u ${{ secrets.PROD_ACR_USERNAME }} --password-stdin
+
+      - name: Build Docker image
         run: |
-          docker build -t $TEST_ACR/$IMAGE_NAME:${{ github.sha }} $APP_DIR
-          docker push $TEST_ACR/$IMAGE_NAME:${{ github.sha }}
+          docker build -t remix-weather:${{ github.sha }} .
 
-      - name: Log in to prod ACR
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ env.PROD_ACR }}
-          username: ${{ secrets.PROD_ACR_USERNAME }}
-          password: ${{ secrets.PROD_ACR_PASSWORD }}
-
-      - name: Push image to prod ACR
+      - name: Tag and Push to Test ACR
+        if: github.event_name == 'pull_request'
         run: |
-          docker tag $TEST_ACR/$IMAGE_NAME:${{ github.sha }} $PROD_ACR/$IMAGE_NAME:${{ github.sha }}
-          docker push $PROD_ACR/$IMAGE_NAME:${{ github.sha }}
+          docker tag remix-weather:${{ github.sha }} testacr7wdj.azurecr.io/remix-weather:${{ github.sha }}
+          docker push testacr7wdj.azurecr.io/remix-weather:${{ github.sha }}
+
+      - name: Tag and Push to Prod ACR
+        if: github.event_name == 'push'
+        run: |
+          docker tag remix-weather:${{ github.sha }} prodacrji4x.azurecr.io/remix-weather:${{ github.sha }}
+          docker push prodacrji4x.azurecr.io/remix-weather:${{ github.sha }}

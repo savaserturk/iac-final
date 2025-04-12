@@ -40,7 +40,3 @@ resource "azurerm_kubernetes_cluster" "aks" {
    kubernetes_version = "1.32.0"
 }
 
-output "kube_config" {
-  value     = azurerm_kubernetes_cluster.aks.kube_config_raw
-  sensitive = true
-}

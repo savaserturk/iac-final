@@ -13,8 +13,6 @@ output "redis_host" {
 output "redis_port" {
   value = azurerm_redis_cache.redis.ssl_port
 }
-resource "random_string" "redis_suffix" {
-  length  = 4
-  special = false
-  upper   = false
-}
+
+
+

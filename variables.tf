@@ -40,3 +40,13 @@ variable "kubernetes_version" {
   type        = string
   description = "Kubernetes version"
 }
+
+variable "region" {
+  type        = string
+  description = "Region for resources"
+}
+
+variable "labelPrefix" {
+  type        = string
+  description = "Label prefix for naming resources"
+}

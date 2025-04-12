@@ -1,6 +1,10 @@
 terraform {
     required_version = ">= 1.1.0"
   required_providers {
+     kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 2.11.0"
+    }
     azurerm = {
       source  = "hashicorp/azurerm"
       version = ">= 3.94.0"
@@ -11,6 +15,26 @@ terraform {
 provider "azurerm" {
   features {}
 }
+
+provider "kubernetes" {
+  alias = "test"
+
+ host                   = module.aks_cluster_test.kube_config.host
+client_certificate     = base64decode(module.aks_cluster_test.kube_config.client_certificate)
+client_key             = base64decode(module.aks_cluster_test.kube_config.client_key)
+cluster_ca_certificate = base64decode(module.aks_cluster_test.kube_config.cluster_ca_certificate)
+}
+
+
+provider "kubernetes" {
+  alias = "prod"
+
+  host                   = module.aks_cluster_test.kube_config.host
+client_certificate     = base64decode(module.aks_cluster_test.kube_config.client_certificate)
+client_key             = base64decode(module.aks_cluster_test.kube_config.client_key)
+cluster_ca_certificate = base64decode(module.aks_cluster_test.kube_config.cluster_ca_certificate)
+}
+
 
 resource "azurerm_resource_group" "aks_rg" {
   name     = "iac-final-aks-rg"
@@ -55,6 +79,13 @@ module "app_test" {
   name_prefix         = "test"
   location            = var.location
   resource_group_name = azurerm_resource_group.aks_rg.name
+  region              = var.region
+  labelPrefix         = var.labelPrefix
+
+aks_kubeconfig_raw = module.aks_cluster_test.kube_config
+ providers = {
+    kubernetes = kubernetes.test
+  }
 }
 
 module "app_prod" {
@@ -62,5 +93,12 @@ module "app_prod" {
   name_prefix         = "prod"
   location            = var.location
   resource_group_name = azurerm_resource_group.aks_rg.name
-}
+  region              = var.region
+  labelPrefix         = var.labelPrefix
 
+aks_kubeconfig_raw  = module.aks_cluster_prod.kube_config
+
+  providers = {
+    kubernetes = kubernetes.prod
+  }
+  }
