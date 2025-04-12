@@ -23,8 +23,7 @@ jobs:
         run: echo "${{ secrets.PROD_ACR_PASSWORD }}" | docker login prodacrji4x.azurecr.io -u ${{ secrets.PROD_ACR_USERNAME }} --password-stdin
 
       - name: Build Docker image
-        run: |
-          docker build -t remix-weather:${{ github.sha }} .
+        run: docker build -t remix-weather:${{ github.sha }} remix-weather-final/remix-weather-final
 
       - name: Tag and Push to Test ACR
         if: github.event_name == 'pull_request'
