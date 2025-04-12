@@ -1,0 +1,25 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+terraform.tfstate.backup
+
+# Node.js / Remix App
+node_modules/
+npm-debug.log
+dist/
+.env
+.env.*
+.DS_Store
+
+# Docker
+*.tar
