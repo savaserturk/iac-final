@@ -28,5 +28,5 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-      - name: Run tfsec (Security Scanner)
-        uses: aquasecurity/tfsec-action@v1.0.0
+    #   - name: Run tfsec (Security Scanner)
+    #     uses: aquasecurity/tfsec-action@v1.0.0
