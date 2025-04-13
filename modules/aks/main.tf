@@ -25,11 +25,11 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = "${var.labelPrefix}-k8s"
 
   default_node_pool {
-    name       = "systempool"
-    node_count = 1
-    min_count  = 1
-    max_count  = 3
-    vm_size    = "Standard_B2s"
+    name                = "systempool"
+    node_count          = 1
+    min_count           = 1
+    max_count           = 3
+    vm_size             = "Standard_B2s"
     enable_auto_scaling = true
   }
 
@@ -37,6 +37,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type = "SystemAssigned"
   }
 
-   kubernetes_version = "1.32.0"
+  kubernetes_version = "1.32.0"
 }
 

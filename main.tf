@@ -1,7 +1,7 @@
 terraform {
-    required_version = ">= 1.1.0"
+  required_version = ">= 1.1.0"
   required_providers {
-     kubernetes = {
+    kubernetes = {
       source  = "hashicorp/kubernetes"
       version = ">= 2.11.0"
     }
@@ -19,10 +19,10 @@ provider "azurerm" {
 provider "kubernetes" {
   alias = "test"
 
- host                   = module.aks_cluster_test.kube_config.host
-client_certificate     = base64decode(module.aks_cluster_test.kube_config.client_certificate)
-client_key             = base64decode(module.aks_cluster_test.kube_config.client_key)
-cluster_ca_certificate = base64decode(module.aks_cluster_test.kube_config.cluster_ca_certificate)
+  host                   = module.aks_cluster_test.kube_config.host
+  client_certificate     = base64decode(module.aks_cluster_test.kube_config.client_certificate)
+  client_key             = base64decode(module.aks_cluster_test.kube_config.client_key)
+  cluster_ca_certificate = base64decode(module.aks_cluster_test.kube_config.cluster_ca_certificate)
 }
 
 
@@ -30,16 +30,16 @@ provider "kubernetes" {
   alias = "prod"
 
   host                   = module.aks_cluster_test.kube_config.host
-client_certificate     = base64decode(module.aks_cluster_test.kube_config.client_certificate)
-client_key             = base64decode(module.aks_cluster_test.kube_config.client_key)
-cluster_ca_certificate = base64decode(module.aks_cluster_test.kube_config.cluster_ca_certificate)
+  client_certificate     = base64decode(module.aks_cluster_test.kube_config.client_certificate)
+  client_key             = base64decode(module.aks_cluster_test.kube_config.client_key)
+  cluster_ca_certificate = base64decode(module.aks_cluster_test.kube_config.cluster_ca_certificate)
 }
 
 
 resource "azurerm_resource_group" "aks_rg" {
   name     = "iac-final-aks-rg"
   location = var.location
-}   
+}
 
 module "aks_cluster_test" {
   source              = "./modules/aks"
@@ -82,8 +82,8 @@ module "app_test" {
   region              = var.region
   labelPrefix         = var.labelPrefix
 
-aks_kubeconfig_raw = module.aks_cluster_test.kube_config
- providers = {
+  aks_kubeconfig_raw = module.aks_cluster_test.kube_config
+  providers = {
     kubernetes = kubernetes.test
   }
 }
@@ -96,9 +96,9 @@ module "app_prod" {
   region              = var.region
   labelPrefix         = var.labelPrefix
 
-aks_kubeconfig_raw  = module.aks_cluster_prod.kube_config
+  aks_kubeconfig_raw = module.aks_cluster_prod.kube_config
 
   providers = {
     kubernetes = kubernetes.prod
   }
-  }
+}
