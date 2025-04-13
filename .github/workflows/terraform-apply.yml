@@ -28,5 +28,6 @@ jobs:
             -var="cluster_name=prod-k8s" \
             -var="location=westus3" \
             -var="resource_group_name=iac-final-aks-rg" \
-            -var="dns_prefix=prod"
+            -var="dns_prefix=prod" \
+            -var="kubernetes_version=1.32.0"
 
