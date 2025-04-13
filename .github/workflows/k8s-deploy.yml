@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write      # ✅ Needed for Azure OIDC login
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
