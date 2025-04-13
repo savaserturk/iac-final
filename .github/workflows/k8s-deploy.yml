@@ -36,13 +36,17 @@ jobs:
           resource-group: ${{ github.ref == 'refs/heads/main' && 'prod-h09-rg' || 'test-h09-rg' }}
           cluster-name: ${{ github.ref == 'refs/heads/main' && 'prod-k8s' || 'test-k8s' }}
 
+      - name: Apply Deployment and Service YAMLs
+        run: |
+          kubectl apply -f remix-weather-final/remix-weather-final/k8s/deployment.yaml
+          kubectl apply -f remix-weather-final/remix-weather-final/k8s/service.yaml
+
       - name: Deploy to AKS (test or prod)
         run: |
           DEPLOYMENT_NAME=${{ github.ref == 'refs/heads/main' && 'prod-remix' || 'test-remix' }}
           ACR_NAME=${{ github.ref == 'refs/heads/main' && 'prodacrji4x.azurecr.io' || 'testacr7wdj.azurecr.io' }}
-          kubectl set image deployment/$DEPLOYMENT_NAME remix=$ACR_NAME/remix-weather:${{ github.sha }} --namespace=default
+          kubectl set image deployment/remix remix=$ACR_NAME/remix-weather:${{ github.sha }} --namespace=default
 
       - name: Wait for Deployment Rollout
         run: |
-          DEPLOYMENT_NAME=${{ github.ref == 'refs/heads/main' && 'prod-remix' || 'test-remix' }}
-          kubectl rollout status deployment/$DEPLOYMENT_NAME --namespace=default || kubectl rollout undo deployment/$DEPLOYMENT_NAME --namespace=default
+          kubectl rollout status deployment/remix --namespace=default || kubectl rollout undo deployment/remix --namespace=default
