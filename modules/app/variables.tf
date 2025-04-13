@@ -32,3 +32,18 @@ variable "aks_kubeconfig_raw" {
     cluster_ca_certificate = string
   })
 }
+
+variable "subscription_id" {
+  type        = string
+  description = "Azure Subscription ID"
+}
+
+variable "tenant_id" {
+  type        = string
+  description = "Azure Tenant ID"
+}
+
+variable "client_id" {
+  type        = string
+  description = "Azure Client ID"
+}

@@ -63,3 +63,18 @@ resource "null_resource" "validate_node_pool" {
     command = "echo 'ERROR: You cannot set both node_count and autoscaling values (min_count/max_count) at the same time.' && exit 1"
   }
 }
+
+variable "subscription_id" {
+  type        = string
+  description = "Azure subscription ID"
+}
+
+variable "tenant_id" {
+  type        = string
+  description = "Azure tenant ID"
+}
+
+variable "client_id" {
+  type        = string
+  description = "Azure client ID"
+}
