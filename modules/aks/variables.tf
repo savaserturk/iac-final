@@ -64,17 +64,3 @@ resource "null_resource" "validate_node_pool" {
   }
 }
 
-variable "subscription_id" {
-  type        = string
-  description = "Azure subscription ID"
-}
-
-variable "tenant_id" {
-  type        = string
-  description = "Azure tenant ID"
-}
-
-variable "client_id" {
-  type        = string
-  description = "Azure client ID"
-}
