@@ -30,5 +30,6 @@ jobs:
             -var="resource_group_name=iac-final-aks-rg" \
             -var="dns_prefix=prod" \
             -var="kubernetes_version=1.32.0" \
-            -var="labelPrefix=prod"
+            -var="labelPrefix=prod" \
+            -var="region=westus3"
 
