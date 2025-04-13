@@ -41,9 +41,9 @@ jobs:
         run: |
           DEPLOYMENT_NAME=${{ github.ref == 'refs/heads/main' && 'prod-remix' || 'test-remix' }}
           ACR_NAME=${{ github.ref == 'refs/heads/main' && 'prodacrji4x.azurecr.io' || 'testacr7wdj.azurecr.io' }}
-          kubectl set image deployment/$DEPLOYMENT_NAME remix=$ACR_NAME/remix-weather:${{ github.sha }}
+          kubectl set image deployment/$DEPLOYMENT_NAME remix=$ACR_NAME/remix-weather:${{ github.sha }} --namespace=default
 
       - name: Wait for Deployment Rollout
         run: |
           DEPLOYMENT_NAME=${{ github.ref == 'refs/heads/main' && 'prod-remix' || 'test-remix' }}
-          kubectl rollout status deployment/$DEPLOYMENT_NAME || kubectl rollout undo deployment/$DEPLOYMENT_NAME
+          kubectl rollout status deployment/$DEPLOYMENT_NAME --namespace=default || kubectl rollout undo deployment/$DEPLOYMENT_NAME --namespace=default
