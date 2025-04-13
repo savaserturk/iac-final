@@ -36,7 +36,4 @@ jobs:
             -var="dns_prefix=prod" \
             -var="kubernetes_version=1.32.0" \
             -var="labelPrefix=prod" \
-            -var="region=westus3" \
-            -var="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
-            -var="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
-            -var="client_id=${{ secrets.AZURE_CLIENT_ID }}"
+            -var="region=westus3" 
