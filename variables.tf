@@ -51,7 +51,22 @@ variable "labelPrefix" {
   description = "Label prefix for naming resources"
 }
 
-variable "client_secret" {
+variable "subscription_id" {
+  description = "Azure subscription ID"
   type        = string
-  description = "Client secret for Azure service principal"
+}
+
+variable "tenant_id" {
+  description = "Azure tenant ID"
+  type        = string
+}
+
+variable "client_id" {
+  description = "Azure client ID for service principal"
+  type        = string
+}
+
+variable "client_secret" {
+  description = "Azure client secret for service principal"
+  type        = string
 }
