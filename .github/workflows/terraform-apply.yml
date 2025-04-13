@@ -23,8 +23,10 @@ jobs:
         run: terraform init
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve \
-          -var="cluster_name=prod-k8s" \
-          -var="location=westus3" \
-          -var="resource_group_name=iac-final-aks-rg" \
-          -var="dns_prefix=prod"
+        run: |
+            terraform apply -auto-approve \
+            -var="cluster_name=prod-k8s" \
+            -var="location=westus3" \
+            -var="resource_group_name=iac-final-aks-rg" \
+            -var="dns_prefix=prod"
+
