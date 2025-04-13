@@ -50,3 +50,8 @@ variable "labelPrefix" {
   type        = string
   description = "Label prefix for naming resources"
 }
+
+variable "client_secret" {
+  type        = string
+  description = "Client secret for Azure service principal"
+}
