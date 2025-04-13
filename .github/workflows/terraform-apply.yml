@@ -10,6 +10,11 @@ jobs:
     name: Terraform Apply on Main Push
     runs-on: ubuntu-latest
 
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -24,7 +29,7 @@ jobs:
 
       - name: Terraform Apply
         run: |
-            terraform apply -auto-approve \
+          terraform apply -auto-approve \
             -var="cluster_name=prod-k8s" \
             -var="location=westus3" \
             -var="resource_group_name=iac-final-aks-rg" \
@@ -32,4 +37,3 @@ jobs:
             -var="kubernetes_version=1.32.0" \
             -var="labelPrefix=prod" \
             -var="region=westus3"
-
