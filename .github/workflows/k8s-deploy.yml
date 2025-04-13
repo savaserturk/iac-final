@@ -35,7 +35,6 @@ jobs:
         with:
           resource-group: ${{ github.ref == 'refs/heads/main' && 'prod-h09-rg' || 'test-h09-rg' }}
           cluster-name: ${{ github.ref == 'refs/heads/main' && 'prod-k8s' || 'test-k8s' }}
-          namespace: default  # 🔧 Explicitly set namespace
 
       - name: Deploy to AKS (test or prod)
         run: |
