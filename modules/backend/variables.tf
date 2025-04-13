@@ -1,14 +1,15 @@
-variable "prefix" {
-  type        = string
-  description = "Prefix for naming resources"
+variable "resource_group_name" {
+  type = string
 }
 
 variable "location" {
-  type        = string
-  description = "Azure region for backend storage"
+  type = string
 }
 
-variable "resource_group_name" {
-  type        = string
-  description = "Resource group for storage account"
+variable "storage_account_name" {
+  type = string
+}
+
+variable "container_name" {
+  type = string
 }

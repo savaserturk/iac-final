@@ -1,16 +1,9 @@
 name: Deploy to AKS
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
-
-permissions:
-  id-token: write      # ✅ Needed for Azure OIDC login
-  contents: read
 
 jobs:
   deploy:
@@ -20,12 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Azure Login via OIDC
+      - name: Azure Login with Service Principal
         uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }} # 👈 Use secret-based login now
 
       - name: Set Kubernetes context
         uses: azure/aks-set-context@v3
