@@ -35,6 +35,7 @@ jobs:
         with:
           resource-group: ${{ github.ref == 'refs/heads/main' && 'prod-h09-rg' || 'test-h09-rg' }}
           cluster-name: ${{ github.ref == 'refs/heads/main' && 'prod-k8s' || 'test-k8s' }}
+          namespace: default  # 🔧 Explicitly set namespace
 
       - name: Deploy to AKS (test or prod)
         run: |
@@ -42,6 +43,7 @@ jobs:
           ACR_NAME=${{ github.ref == 'refs/heads/main' && 'prodacrji4x.azurecr.io' || 'testacr7wdj.azurecr.io' }}
           kubectl set image deployment/$DEPLOYMENT_NAME remix=$ACR_NAME/remix-weather:${{ github.sha }}
 
-      - name: Show current deployment status
+      - name: Wait for Deployment Rollout
         run: |
-          kubectl rollout status deployment/${{ github.ref == 'refs/heads/main' && 'prod-remix' || 'test-remix' }}
+          DEPLOYMENT_NAME=${{ github.ref == 'refs/heads/main' && 'prod-remix' || 'test-remix' }}
+          kubectl rollout status deployment/$DEPLOYMENT_NAME || kubectl rollout undo deployment/$DEPLOYMENT_NAME
